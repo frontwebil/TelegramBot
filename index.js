@@ -2,8 +2,9 @@ import { Bot, Api } from "node-telegram-bot-api";
 import { again_markup, reply_markup } from "./markups.js";
 import http from "http";
 import "dotenv/config";
+import prisma from "./lib/prisma.js";
 
-const token = process.env.BOT_TOKEN;;
+const token = process.env.BOT_TOKEN;
 
 const bot = new Bot(token);
 const api = new Api(token);
@@ -12,11 +13,7 @@ await api.setMyCommands({
   commands: [
     {
       command: "start",
-      description: "Початкове вітання",
-    },
-    {
-      command: "info",
-      description: "Отримати інформацію про користувача!",
+      description: "Почати",
     },
     {
       command: "game",
@@ -45,8 +42,27 @@ const start = async () => {
   bot.on("message", async (msg) => {
     const text = msg.update.message.text;
     const chatId = msg.update.message.chat.id;
+    const user = msg.update.message.from;
 
     if (text === "/start") {
+      await prisma.user.upsert({
+        where: {
+          user_id_chat_id: {
+            user_id: BigInt(user.id),
+            chat_id: BigInt(chatId),
+          },
+        },
+        update: {
+          name: user.first_name ?? "",
+          userName: user.username ?? "",
+        },
+        create: {
+          user_id: BigInt(user.id),
+          chat_id: BigInt(chatId),
+          name: user.first_name ?? "",
+          userName: user.username ?? "",
+        },
+      });
       await api.sendSticker({
         chat_id: chatId,
         sticker:

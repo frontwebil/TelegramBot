@@ -11,8 +11,12 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
     "dotenv": "^17.4.2",
     "node-telegram-bot-api": "^2.1.0",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "pg": "^8.23.0",
+    "prisma": "^7.10.0"
   }
 }

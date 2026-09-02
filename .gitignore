@@ -1,3 +1,8 @@
 /node_modules
 .idea
 .env
+/generated/prisma
+.cursor
+.claude
+.agents
+.windsurf
