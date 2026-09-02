@@ -1,7 +1,8 @@
 import { Bot, Api } from "node-telegram-bot-api";
 import { again_markup, reply_markup } from "./markups.js";
+import "dotenv/config";
 
-const token = "8876164570:AAFGCnt8Ezhkrpu4dPGa_lgy1-ccyalUs0M";
+const token = process.env.BOT_TOKEN;;
 
 const bot = new Bot(token);
 const api = new Api(token);
