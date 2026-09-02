@@ -1,5 +1,6 @@
 import { Bot, Api } from "node-telegram-bot-api";
 import { again_markup, reply_markup } from "./markups.js";
+import http from "http";
 import "dotenv/config";
 
 const token = process.env.BOT_TOKEN;;
@@ -93,5 +94,16 @@ const start = async () => {
 
   await bot.startPolling();
 };
+
+const PORT = process.env.PORT || 3000;
+
+http
+  .createServer((req, res) => {
+    res.writeHead(200);
+    res.end("Telegram bot is running");
+  })
+  .listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 
 start();
